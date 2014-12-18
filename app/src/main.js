@@ -1,48 +1,57 @@
-var scene, camera, renderer, geometry, material, mesh, stats;
+window.onload = function () {
+  var scene, camera, renderer, geometry, material, mesh, stats;
 
-function initStats() {
-  stats = new Stats();
-  // align top-left
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.left = '0px';
-  stats.domElement.style.top = '0px';
+  function initStats() {
+    stats = new Stats();
+    // align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
 
-  document.body.appendChild(stats.domElement);
-}
+    document.body.appendChild(stats.domElement);
+  }
 
-function initThreeJs() {
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.z = 1000;
+  function initThreeJs() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.z = 1000;
 
-  geometry = new THREE.BoxGeometry(200, 200, 200);
-  material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+    geometry = new THREE.BoxGeometry(200, 200, 200);
+    material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+    mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-  document.body.appendChild(renderer.domElement);
-}
+    document.body.appendChild(renderer.domElement);
+  }
 
-function init() {
-  initStats();
-  initThreeJs();
-}
+  function initDatGui() {
+    var gui = new dat.GUI();
+    gui.addColor({filtercolor: [255, 0, 0]}, 'filtercolor');
+  }
 
-function animate() {
-  stats.begin();
+  function init() {
+    initStats();
+    initThreeJs();
+    initDatGui();
+  }
 
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.02;
+  function animate() {
+    stats.begin();
 
-  renderer.render(scene, camera);
-  stats.end();
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.02;
 
-  requestAnimationFrame(animate);
-}
+    renderer.render(scene, camera);
+    stats.end();
 
-init();
-animate();
+    requestAnimationFrame(animate);
+  }
+
+  init();
+  animate();
+};
+
