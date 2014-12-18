@@ -1,0 +1,17 @@
+{
+  "name": "WebGLVideofilter",
+  "version": "0.0.0",
+  "description": "webgl video filter",
+  "dependencies": {
+    "bower": "^1.3.12"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/athlordJojo/WebGLVideofilter.git"
+  },
+  "keywords": [
+    "webgl"
+  ],
+  "homepage": "https://github.com/athlordJojo/WebGLVideofilter"
+}
