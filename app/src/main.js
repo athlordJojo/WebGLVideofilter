@@ -1,13 +1,17 @@
-var scene, camera, renderer;
-var geometry, material, mesh;
+var scene, camera, renderer, geometry, material, mesh, stats;
 
-init();
-animate();
+function initStats() {
+  stats = new Stats();
+  // align top-left
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
 
-function init() {
+  document.body.appendChild(stats.domElement);
+}
 
+function initThreeJs() {
   scene = new THREE.Scene();
-
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 1000;
 
@@ -21,16 +25,24 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   document.body.appendChild(renderer.domElement);
+}
 
+function init() {
+  initStats();
+  initThreeJs();
 }
 
 function animate() {
-
-  requestAnimationFrame(animate);
+  stats.begin();
 
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.02;
 
   renderer.render(scene, camera);
+  stats.end();
 
+  requestAnimationFrame(animate);
 }
+
+init();
+animate();
