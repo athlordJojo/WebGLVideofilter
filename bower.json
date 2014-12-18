@@ -19,6 +19,6 @@
   "dependencies": {
     "threejs": "r69",
     "threejs-stats": "#b7d72158f758d543a9eaee7a8215d1b263ecd618",
-    "dat.gui": "*"
+    "dat.gui": "v0.5"
   }
 }
