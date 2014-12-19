@@ -39,10 +39,14 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
 
-    videoMaterial = new THREE.MeshBasicMaterial({
-                                                  map: videoTexture
-                                                });
+    videoMaterial = new THREE.ShaderMaterial({
+                                               uniforms: THREE.VideoShader.uniforms,
+                                               vertexShader: THREE.VideoShader.vertexShader,
+                                               fragmentShader: THREE.VideoShader.fragmentShader
+                                             });
 
+
+    videoMaterial.uniforms.texture.value = videoTexture;
 
     //Add video plane
     var planeGeometry = new THREE.PlaneGeometry(1080, 720, 1, 1);
@@ -84,7 +88,7 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
 
     initWebGlRenderer();
     initComposer();
-    initPasses();
+    //initPasses();
   }
 
   function animate() {
@@ -92,8 +96,8 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       if (videoTexture) videoTexture.needsUpdate = true;
     }
-//    renderer.render(scene, camera);
-    composer.render(0.1);
+    renderer.render(scene, camera);
+//    composer.render(0.1);
     stats.end();
 
     requestAnimationFrame(animate);
