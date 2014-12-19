@@ -7,7 +7,10 @@
 THREE.VideoShader = {
 
   uniforms: {
-    "texture": { type: "t", value: null }
+    "texture": { type: "t", value: null },
+    "red": {type: "f", value: 1.0 },
+    "green": {type: "f", value: 0.0 },
+    "blue": {type: "f", value: 0.0 }
   },
 
   vertexShader: [
@@ -22,11 +25,16 @@ THREE.VideoShader = {
 
   fragmentShader: [
     "uniform sampler2D texture;",
+    "uniform float red;",
+    "uniform float green;",
+    "uniform float blue;",
     "varying vec2 vUv;",
 
     "void main() {",
     "vec4 color = texture2D(texture, vUv);",
-    "color.r = color.r + 0.5;",
+    "color.r = color.r + red;",
+    "color.g = color.g + green;",
+    "color.b = color.b + blue;",
     "gl_FragColor = color;",
     "}"
 

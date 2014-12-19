@@ -1,5 +1,5 @@
 define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass', 'VideoShader'], function () {
-  var scene, camera, renderer, geometry, material, mesh, stats, video, videoTexture, videoMaterial, plane, composer, renderpass, shaderPass1, copyPass;
+  var scene, camera, renderer, geometry, material, mesh, stats, video, videoTexture, videoMaterial, plane, composer, renderpass, shaderPass1, copyPass, guiUniforms;
 
   function initStats() {
     stats = new Stats();
@@ -26,7 +26,14 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
 
   function initDatGui() {
     var gui = new dat.GUI();
-    gui.addColor({filtercolor: [255, 0, 0]}, 'filtercolor');
+    guiUniforms = {
+      red: 0.0,
+      green: 0.0,
+      blue:0.0
+    };
+    gui.add(guiUniforms, 'red', 0, 1);
+    gui.add(guiUniforms, 'green', 0, 1);
+    gui.add(guiUniforms, 'blue', 0, 1);
   }
 
   function initVideo() {
@@ -96,6 +103,9 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       if (videoTexture) videoTexture.needsUpdate = true;
     }
+    videoMaterial.uniforms.red.value = guiUniforms.red;
+    videoMaterial.uniforms.green.value = guiUniforms.green;
+    videoMaterial.uniforms.blue.value = guiUniforms.blue;
     renderer.render(scene, camera);
 //    composer.render(0.1);
     stats.end();
