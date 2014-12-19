@@ -17,7 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "threejs": "r69",
+    "threejs": "r68",
+    "threejs-dist":"r68",
     "threejs-stats": "#b7d72158f758d543a9eaee7a8215d1b263ecd618",
     "dat.gui": "v0.5",
     "requirejs": "^2.1"
