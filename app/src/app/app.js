@@ -1,5 +1,5 @@
-define(['stats', 'threejs', 'datgui'], function () {
-  var scene, camera, renderer, geometry, material, mesh, stats, video, videoTexture, videoMaterial, plane;
+define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass', 'VideoShader'], function () {
+  var scene, camera, renderer, geometry, material, mesh, stats, video, videoTexture, videoMaterial, plane, composer, renderpass, shaderPass1, copyPass;
 
   function initStats() {
     stats = new Stats();
@@ -59,12 +59,32 @@ define(['stats', 'threejs', 'datgui'], function () {
     document.body.appendChild(renderer.domElement);
   }
 
+  function initComposer() {
+    composer = new THREE.EffectComposer(renderer);
+  }
+
+  function initPasses() {
+    renderpass = new THREE.RenderPass(scene, camera);
+    composer.addPass(renderpass);
+    shaderPass1 = new THREE.ShaderPass(THREE.VideoShader);
+    shaderPass1.uniforms = [];
+    composer.addPass(shaderPass1);
+
+    copyPass = new THREE.ShaderPass(THREE.CopyShader);
+    composer.addPass(copyPass);
+    copyPass.renderToScreen = true;
+  }
+
   function init() {
-    initWebGlRenderer();
+
     initStats();
     initScene();
     initDatGui();
     initVideo();
+
+    initWebGlRenderer();
+    initComposer();
+    initPasses();
   }
 
   function animate() {
@@ -72,7 +92,8 @@ define(['stats', 'threejs', 'datgui'], function () {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       if (videoTexture) videoTexture.needsUpdate = true;
     }
-    renderer.render(scene, camera);
+//    renderer.render(scene, camera);
+    composer.render(0.1);
     stats.end();
 
     requestAnimationFrame(animate);
