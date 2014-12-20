@@ -24,6 +24,20 @@ THREE.VideoShader = {
   ].join("\n"),
 
   fragmentShader: [
+//    "uniform sampler2D texture;",
+//    "uniform float red;",
+//    "uniform float green;",
+//    "uniform float blue;",
+//    "varying vec2 vUv;",
+//
+//    "void main() {",
+//    "vec4 color = texture2D(texture, vUv);",
+//    "color.r = color.r + red;",
+//    "color.g = color.g + green;",
+//    "color.b = color.b + blue;",
+//    "gl_FragColor = color;",
+//    "}"
+
     "uniform sampler2D texture;",
     "uniform float red;",
     "uniform float green;",
@@ -32,9 +46,13 @@ THREE.VideoShader = {
 
     "void main() {",
     "vec4 color = texture2D(texture, vUv);",
-    "color.r = color.r + red;",
-    "color.g = color.g + green;",
-    "color.b = color.b + blue;",
+    "float diffRG = color.r - color.g;",
+    "float diffRB = color.r - color.b;",
+    "if(diffRG > 0.15 && diffRB > 0.15){",
+    "   color.r = red;",
+    "   color.g = green;",
+    "   color.b = blue;",
+    "}",
     "gl_FragColor = color;",
     "}"
 
