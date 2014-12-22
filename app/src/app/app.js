@@ -1,4 +1,4 @@
-define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass', 'VideoShader', 'KeyboardState'],
+define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass', 'ColorAddShader', 'ColorReplacementShader', 'KeyboardState'],
        function () {
          var scene, camera, renderer, sphere, stats, video, videoTexture, videoMaterial, plane, guiUniforms, keyboard, render;
 
@@ -24,7 +24,15 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
          }
 
          function renderToggle() {
-           render = !render;
+//           render = !render;
+           videoMaterial = new THREE.ShaderMaterial({
+                                                      uniforms: THREE.ColorAddShader.uniforms,
+                                                      vertexShader: THREE.ColorAddShader.vertexShader,
+                                                      fragmentShader: THREE.ColorAddShader.fragmentShader
+                                                    });
+
+           videoMaterial.side = THREE.DoubleSide;
+           videoMaterial.uniforms.texture.value = videoTexture;
          }
 
          function initDatGui() {
@@ -33,7 +41,9 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
              red: 0.0,
              green: 0.0,
              blue: 0.0,
+
              renderToggle: renderToggle
+
 
            };
 
@@ -46,7 +56,7 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
          function initVideo() {
            video = document.createElement('video');
            video.loop = true;
-           video.src = "videos/rewe.mov";
+           video.src = "videos/video.mp4";
            video.play();
 
            videoTexture = new THREE.Texture(video);
@@ -54,9 +64,9 @@ define(['stats', 'THREE', 'datgui', 'EffectComposer', 'BasicShader', 'RenderPass
            videoTexture.magFilter = THREE.LinearFilter;
 
            videoMaterial = new THREE.ShaderMaterial({
-                                                      uniforms: THREE.VideoShader.uniforms,
-                                                      vertexShader: THREE.VideoShader.vertexShader,
-                                                      fragmentShader: THREE.VideoShader.fragmentShader
+                                                      uniforms: THREE.ColorReplacementShader.uniforms,
+                                                      vertexShader: THREE.ColorReplacementShader.vertexShader,
+                                                      fragmentShader: THREE.ColorReplacementShader.fragmentShader
                                                     });
 
            videoMaterial.side = THREE.DoubleSide;

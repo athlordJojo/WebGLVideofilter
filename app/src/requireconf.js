@@ -10,7 +10,8 @@ requirejs.config({
                      MaskPass: "../vendor/threejs-dist/extra/postprocessing/MaskPass",
                      CopyShader: "../vendor/threejs-dist/extra/shaders/CopyShader",
                      BasicShader: "../vendor/threejs-dist/extra/shaders/BasicShader",
-                     VideoShader: "shaders/VideoShader",
+                     ColorAddShader: "shaders/ColorAddShader",
+                     ColorReplacementShader: "shaders/ColorReplacementShader",
                      KeyboardState: "../vendor/threex.keyboardstate/threex.keyboardstate"
                    },
                    shim: {
@@ -41,7 +42,10 @@ requirejs.config({
                      BasicShader: {
                        deps: ['THREE']
                      },
-                     VideoShader: {
+                     ColorAddShader: {
+                       deps: ['THREE']
+                     },
+                     ColorReplacementShader: {
                        deps: ['THREE']
                      }
                    }
